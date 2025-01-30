@@ -1,0 +1,159 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #ffffff, #ffffff, #ffffff);
+  background-size: 400% 400%;
+  animation: gradientBackground 10s ease infinite;
+  height: 100%;
+}
+
+@keyframes gradientBackground {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #2c2a2a;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-name {
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sign-in {
+  background-color: white;
+  color: black;
+  border-radius: 2rem;
+  margin-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.sign-in:hover {
+  background-color: #e5e5e5;
+}
+
+.register {
+  background-color: black;
+  color: white;
+  border-radius: 2rem;
+  margin-right: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.register:hover {
+  background-color: #333;
+}
+
+.main-content {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.title {
+  font-size: 4rem;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  top: -20px;
+}
+
+.img {
+  max-width: 50px;
+  height: auto;
+}
+
+.footer {
+  margin-top: 5rem;
+  padding: 1rem;
+  width: 100%;
+  background-color: #2c2a2a;
+  text-align: center;
+}
+
+.task-row {
+  position: relative;
+}
+
+.task-row:hover::after {
+  content: attr(data-descricao);
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  left: 0;
+  top: 100%;
+  white-space: nowrap;
+  transform: translateY(5px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btnAction {
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btnConclude {
+  background-color: rgb(18, 66, 18);
+  color: white;
+}
+
+.btnDelete {
+  background-color: rgb(104, 26, 26);
+  color: white;
+}
+
+.btnEdit {
+  background-color: rgb(24, 24, 92);
+  color: white;
+}

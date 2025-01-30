@@ -1,0 +1,242 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #ffffff, #ffffff, #ffffff);
+  background-size: 400% 400%;
+  animation: gradientBackground 10s ease infinite;
+  height: 100%;
+}
+
+@keyframes gradientBackground {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #2c2a2a;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-name {
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sign-in {
+  background-color: white;
+  color: black;
+  border-radius: 2rem;
+  margin-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.sign-in:hover {
+  background-color: #e5e5e5;
+}
+
+.register {
+  background-color: black;
+  color: white;
+  border-radius: 2rem;
+  margin-right: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.register:hover {
+  background-color: #333;
+}
+
+.main-content {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.title {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #000000;
+}
+
+.subtitle {
+  font-size: 2rem;
+  color: #000000;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.title, .subtitle {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.img {
+  max-width: 50px;
+  height: auto;
+}
+
+.footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 100%;
+  background-color: #2c2a2a;
+  text-align: center;
+}
+
+.quadrants-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 50px auto;
+}
+
+.quadrant1 {
+  background-color: rgb(143, 39, 39);
+}
+
+.quadrant2 {
+  background-color: rgb(189, 189, 57);
+}
+
+.quadrant3 {
+  background-color: rgb(106, 150, 56);
+}
+
+.quadrant4 {
+  background-color: rgb(49, 59, 145);
+}
+
+.quadrant {
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.quadrant h2 {
+  margin-top: 0;
+}
+
+.quadrant table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.quadrant thead {
+  background-color: #ffffff;
+}
+
+.quadrant th,
+.quadrant td {
+  border: 1px solid #aaa;
+  padding: 8px;
+  text-align: left;
+}
+
+.task-row {
+  position: relative;
+}
+
+/* Tooltip com a descrição ao passar o mouse */
+.task-row:hover::after {
+  content: attr(data-descricao);
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  left: 0;
+  top: 100%;
+  white-space: nowrap;
+  transform: translateY(5px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.actions-container {
+  display: flex;
+  gap: 5px;
+}
+
+.btnAction {
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btnConclude {
+  background-color: rgb(18, 66, 18);
+  color: white;
+}
+
+.btnDelete {
+  background-color: rgb(104, 26, 26);
+  color: white;
+}
+
+.btnEdit {
+  background-color: rgb(24, 24, 92);
+  color: white;
+}
+
+.Muitoalta{
+  color: rgb(31, 29, 29);
+}
+
+.Alta{
+  color: rgb(31, 29, 29);
+}
+
+.Media{
+  color: rgb(31, 29, 29);
+}
+
+.Baixa{
+  color: rgb(31, 29, 29);
+}
+
