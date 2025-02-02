@@ -1,74 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Matriz.css";
 
-const HomePage = () => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTitleComplete, setIsTitleComplete] = useState(false);
-
-  useEffect(() => {
-    const titleText = "Matriz de Eisenhower";
-    const subtitleText = "My to-do list";
-    const combinedText = titleText + "|" + subtitleText;
-    let currentIndex = 0;
-
-    const interval = setInterval(() => {
-      if (currentIndex < combinedText.length) {
-        const currentChar = combinedText[currentIndex];
-        if (currentChar === "|") {
-          setIsTitleComplete(true);
-          setDisplayedText((prev) => prev + "\n");
-        } else {
-          setDisplayedText((prev) => prev + currentChar);
-        }
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 150);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const [title, subtitle] = displayedText.split("\n") || [];
-
+const TaskList = () => {
+  // Exemplo de tarefas cadastradas
   const tasks = [
     {
       id: 1,
-      quadrante: 1,
       nome: "Pagar contas urgentes",
       descricao: "Efetuar pagamentos antes do vencimento",
       dataTermino: "10/09/2023",
-      nivelDificuldade: "Alta",
+      nivelDificuldade: "Alta"
     },
     {
       id: 2,
-      quadrante: 2,
       nome: "Ler livro de produtividade",
       descricao: "Estudar técnicas de gestão de tempo",
       dataTermino: "15/09/2023",
-      nivelDificuldade: "Média",
+      nivelDificuldade: "Média"
     },
     {
       id: 3,
-      quadrante: 3,
       nome: "Responder mensagens",
       descricao: "Checar e-mails sem relevância imediata",
       dataTermino: "08/09/2023",
-      nivelDificuldade: "Baixa",
+      nivelDificuldade: "Baixa"
     },
     {
       id: 4,
-      quadrante: 4,
       nome: "Ver redes sociais",
       descricao: "Distrações e entretenimento",
       dataTermino: "Sempre que quiser",
-      nivelDificuldade: "Baixa",
+      nivelDificuldade: "Baixa"
     },
+    {
+      id: 5,
+      nome: "Planejar a semana",
+      descricao: "Organizar atividades e prioridades",
+      dataTermino: "12/09/2023",
+      nivelDificuldade: "Média"
+    },
+    {
+      id: 6,
+      nome: "Exercícios físicos",
+      descricao: "Realizar atividade física por pelo menos 30 minutos",
+      dataTermino: "Diariamente",
+      nivelDificuldade: "Alta"
+    }
   ];
-
-  const filterTasksByQuadrant = (quadrantNumber) => {
-    return tasks.filter((task) => task.quadrante === quadrantNumber);
-  };
 
   return (
     <div className="container">
@@ -84,148 +62,29 @@ const HomePage = () => {
       </header>
 
       <main className="main-content">
-        <h1 className="title">{title || ""}</h1>
-        <p className="subtitle">{isTitleComplete ? subtitle || "" : ""}</p>
-
-        {isTitleComplete && (
-          <div className="quadrants-container">
-            <div className="quadrant quadrant1">
-              <h2 className="Muitoalta">Faça Agora</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Data de Término</th>
-                    <th>Nível de Dificuldade</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filterTasksByQuadrant(1).map((task) => (
-                    <tr
-                      key={task.id}
-                      className="task-row"
-                      data-descricao={task.descricao}
-                    >
-                      <td>{task.nome}</td>
-                      <td>{task.dataTermino}</td>
-                      <td>{task.nivelDificuldade}</td>
-                      <td>
-                        <div className="actions-container">
-                          <button className="btnAction btnConclude">Concluir</button>
-                          <button className="btnAction btnDelete">Excluir</button>
-                          <button className="btnAction btnEdit">Editar</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <h1 className="title">Minhas Tarefas</h1>
+        <div className="task-list-container">
+          {tasks.map((task) => (
+            <div key={task.id} className="task-item">
+              <div className="task-summary">
+                <span
+                  className="task-name"
+                  data-full-text={task.nome}
+                >
+                  {task.nome.length > 15 ? task.nome.substring(0, 15) + '...' : task.nome}
+                </span>
+                <span className="task-date">{task.dataTermino}</span>
+                <span className="task-priority">{task.nivelDificuldade}</span>
+                <div className="task-actions">
+                  <button className="btnAction btnConclude">Concluir</button>
+                  <button className="btnAction btnEdit">Editar</button>
+                  <button className="btnAction btnDelete">Excluir</button>
+                </div>
+              </div>
+              <div className="task-description">{task.descricao}</div>
             </div>
-
-            <div className="quadrant quadrant2">
-              <h2 className="Alta">Programe</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Data de Término</th>
-                    <th>Nível de Dificuldade</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filterTasksByQuadrant(2).map((task) => (
-                    <tr
-                      key={task.id}
-                      className="task-row"
-                      data-descricao={task.descricao}
-                    >
-                      <td>{task.nome}</td>
-                      <td>{task.dataTermino}</td>
-                      <td>{task.nivelDificuldade}</td>
-                      <td>
-                        <div className="actions-container">
-                          <button className="btnAction btnConclude">Concluir</button>
-                          <button className="btnAction btnDelete">Excluir</button>
-                          <button className="btnAction btnEdit">Editar</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="quadrant quadrant3">
-              <h2 className="Media">Delegue</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Data de Término</th>
-                    <th>Nível de Dificuldade</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filterTasksByQuadrant(3).map((task) => (
-                    <tr
-                      key={task.id}
-                      className="task-row"
-                      data-descricao={task.descricao}
-                    >
-                      <td>{task.nome}</td>
-                      <td>{task.dataTermino}</td>
-                      <td>{task.nivelDificuldade}</td>
-                      <td>
-                        <div className="actions-container">
-                          <button className="btnAction btnConclude">Concluir</button>
-                          <button className="btnAction btnDelete">Excluir</button>
-                          <button className="btnAction btnEdit">Editar</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="quadrant quadrant4">
-              <h2 className="Baixa">Elimine</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Data de Término</th>
-                    <th>Nível de Dificuldade</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filterTasksByQuadrant(4).map((task) => (
-                    <tr
-                      key={task.id}
-                      className="task-row"
-                      data-descricao={task.descricao}
-                    >
-                      <td>{task.nome}</td>
-                      <td>{task.dataTermino}</td>
-                      <td>{task.nivelDificuldade}</td>
-                      <td>
-                        <div className="actions-container">
-                          <button className="btnAction btnConclude">Concluir</button>
-                          <button className="btnAction btnDelete">Excluir</button>
-                          <button className="btnAction btnEdit">Editar</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
       </main>
 
       <footer className="footer">
@@ -239,4 +98,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default TaskList;

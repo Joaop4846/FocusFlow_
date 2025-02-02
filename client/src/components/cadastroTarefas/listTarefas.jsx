@@ -1,154 +1,181 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 import "./listTarefas.css";
 
-const ChallengeAssignment = () => {
-  const [tasks, setTasks] = useState([]);
-  const [protagonist, setProtagonist] = useState("");
-  const [description, setDescription] = useState("");
-  const [difficulty, setDifficulty] = useState("Médio");
-  const [endDate, setEndDate] = useState("");
+const ChallengeAssignment = ({ serverIP }) => {
+  const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
 
-  const handleAddTask = () => {
-    if (!protagonist.trim() || !description.trim() || !endDate) {
-      return;
+  // Redirecionamento se não houver token
+  React.useEffect(() => {
+    if (!token) {
+      navigate("/");
     }
+  }, [token, navigate]);
 
-    const newTask = {
-      id: Date.now(),
-      protagonist,
-      description,
-      difficulty,
-      endDate
-    };
-
-    setTasks((prev) => [...prev, newTask]);
-    setProtagonist("");
-    setDescription("");
-    setDifficulty("Médio");
-    setEndDate("");
+  // Estado inicial do formulário
+  const initialFormState = {
+    nomeTarefa: "",
+    descricaoTarefa: "",
+    dataTarefa: "",
+    prioridade: "Médio"
   };
 
-  const handleRemoveTask = (id) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+  const [formData, setFormData] = useState(initialFormState);
+  const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState("");
+
+  // Função para atualizar o estado do formulário
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Função para validar o formulário
+  const validateForm = () => {
+    if (!formData.nomeTarefa.trim()) {
+      setError("O nome da tarefa é obrigatório");
+      return false;
+    }
+    if (!formData.descricaoTarefa.trim()) {
+      setError("A descrição da tarefa é obrigatória");
+      return false;
+    }
+    if (!formData.dataTarefa) {
+      setError("A data da tarefa é obrigatória");
+      return false;
+    }
+    return true;
+  };
+
+  // Função para enviar dados ao backend
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!validateForm()) return;
+
+    const payload = {
+      nome_tarefa: formData.nomeTarefa,
+      descricao_tarefa: formData.descricaoTarefa,
+      data_tarefa: dayjs(formData.dataTarefa).format("YYYY-MM-DD"),
+      prioridade: formData.prioridade
+    };
+
+    try {
+      const response = await fetch(`${serverIP}/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao criar tarefa");
+      }
+
+      const data = await response.json();
+      setTasks(prev => [...prev, data]);
+      setFormData(initialFormState);
+      alert("Tarefa criada com sucesso!");
+
+    } catch (error) {
+      setError("Erro ao criar tarefa: " + error.message);
+      console.error("Erro detalhado:", error);
+    }
   };
 
   return (
     <div className="container">
       <header className="header">
         <div className="title-header">
-          <img className="img" src="/img/coruja.png" alt="logo" />
+          <img className="img" src="/img/coruja.png" alt="Logo" />
           <span className="page-name">FocusFlow</span>
-        </div>
-        <div className="auth-buttons">
-          <button className="btn sign-in">Sign in</button>
-          <button className="btn register">Register</button>
         </div>
       </header>
 
       <main className="main-content">
-        <h1 className="title">Atribuição de Tarefas</h1>
+        <h7 className="title">Criar Nova Tarefa</h7>
+        
+        {error && (
+          <div style={{ color: "red", margin: "10px 0", textAlign: "center" }}>
+            {error}
+          </div>
+        )}
 
-        <table style={{ margin: "0 auto", maxWidth: "900px" }}>
-          <thead>
-            <tr>
-              <th style={{ width: "15%" }}>Desafio</th>
-              <th style={{ width: "35%" }}>Descrição</th>
-              <th style={{ width: "15%" }}>Data de término</th>
-              <th style={{ width: "15%" }}>Dificuldade</th>
-              <th style={{ width: "10%" }}>Editar</th>
-              <th style={{ width: "10%" }}>Remover</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task) => (
-              <tr
-                key={task.id}
-                className="task-row"
-                data-descricao={task.description}
-              >
-                <td>{task.protagonist}</td>
-                <td>{task.description}</td>
-                <td>{task.endDate}</td>
-                <td>{task.difficulty}</td>
-                <td>
-                  <button className="btnAction btnEdit">Editar</button>
-                </td>
-                <td>
-                  <button
-                    className="btnAction btnDelete"
-                    onClick={() => handleRemoveTask(task.id)}
-                  >
-                    Remover
-                  </button>
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  placeholder="Tarefa"
-                  value={protagonist}
-                  onChange={(e) => setProtagonist(e.target.value)}
-                  style={{ width: "90%" }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="Digite a descrição da tarefa"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  style={{ width: "90%" }}
-                />
-              </td>
-              <td>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  style={{ width: "90%" }}
-                />
-              </td>
-              <td>
-                <select
-                  value={difficulty}
-                  onChange={(e) => setDifficulty(e.target.value)}
-                >
-                  <option value="Baixa">Baixa</option>
-                  <option value="Médio">Médio</option>
-                  <option value="Alta">Alta</option>
-                </select>
-              </td>
-              <td colSpan={2}>
-                <button
-                  className="btnAction btnConclude"
-                  onClick={handleAddTask}
-                >
-                  Adicionar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <form onSubmit={handleSubmit} className="task-form">
+          <div className="form-group">
+            <label htmlFor="nomeTarefa">Nome da Tarefa:</label>
+            <input
+              type="text"
+              id="nomeTarefa"
+              name="nomeTarefa"
+              value={formData.nomeTarefa}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
 
-        <div style={{ marginTop: "20px" }}>
-          <button className="btn" style={{ marginRight: "10px" }}>
-            Cancelar
-          </button>
-          <button className="btn" style={{ backgroundColor: "#e91e63", color: "#fff" }}>
-            Atribuir
-          </button>
-        </div>
+          <div className="form-group">
+            <label htmlFor="descricaoTarefa">Descrição:</label>
+            <textarea
+              id="descricaoTarefa"
+              name="descricaoTarefa"
+              value={formData.descricaoTarefa}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="dataTarefa">Data de Término:</label>
+            <input
+              type="date"
+              id="dataTarefa"
+              name="dataTarefa"
+              value={formData.dataTarefa}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="prioridade">Prioridade:</label>
+            <select
+              id="prioridade"
+              name="prioridade"
+              value={formData.prioridade}
+              onChange={handleInputChange}
+            >
+              <option value="Baixa">Baixa</option>
+              <option value="Médio">Médio</option>
+              <option value="Alta">Alta</option>
+            </select>
+          </div>
+
+          <div className="button-group">
+            <button type="button" onClick={() => navigate(-1)} className="btn-cancel">
+              Cancelar
+            </button>
+            <button type="submit" className="btn-submit">
+              Criar Tarefa
+            </button>
+          </div>
+        </form>
       </main>
-
       <footer className="footer">
-        <p>Siga nossas redes sociais:</p>
-        <p>
-          Instagram: <a href="#">@taskvault</a> | Twitter: <a href="#">@taskvault</a>
-        </p>
-        <p>Contato: contato@taskvault.com</p>
-      </footer>
+  <p>Siga nossas redes sociais:</p>
+  <p>
+    Instagram: <a href="#">@taskvault</a> | Twitter: <a href="#">@taskvault</a>
+  </p>
+  <p>Contato: contato@taskvault.com</p>
+</footer>
     </div>
   );
 };

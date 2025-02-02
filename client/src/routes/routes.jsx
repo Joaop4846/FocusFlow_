@@ -14,7 +14,7 @@ import ListTarefas from "../components/MatrizEise/Matriz"
 
 export default function Router() {
     
-    const port = '3000'
+    const port = '5000'
     const ipAddress = 'localhost';
     const serverIP = `http://${ipAddress}:${port}`;
 

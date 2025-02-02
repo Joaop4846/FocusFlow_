@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 
 
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: 'http://localhost:3000', 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
@@ -20,6 +20,6 @@ app.use('/', routes);
 
 
 
-app.listen(3000, '0.0.0.0', () => {
+app.listen(5000, '0.0.0.0', () => {
   console.log('Servidor rodando na porta 3000');
 });

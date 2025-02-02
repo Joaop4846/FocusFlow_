@@ -4,7 +4,9 @@ const dbConfig = {
     server: '10.128.222.236',
     database: 'ELITE',
     options: {
-        trustedConnection:false
+        trustedConnection:false,
+        encrypt: false,
+        trutServerCertificate: true
     },
   };
    

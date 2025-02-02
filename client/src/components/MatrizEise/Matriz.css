@@ -1,7 +1,8 @@
+/* Global */
 body, html, #root {
   margin: 0;
   padding: 0;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #ffffff, #ffffff, #ffffff);
   background-size: 400% 400%;
   animation: gradientBackground 10s ease infinite;
@@ -9,23 +10,20 @@ body, html, #root {
 }
 
 @keyframes gradientBackground {
-  0% {
-      background-position: 0% 50%;
-  }
-  50% {
-      background-position: 100% 50%;
-  }
-  100% {
-      background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
+/* Container principal */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
+/* Cabeçalho */
 .header {
   display: flex;
   justify-content: space-between;
@@ -40,6 +38,11 @@ body, html, #root {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.img {
+  max-width: 50px;
+  height: auto;
 }
 
 .page-name {
@@ -89,120 +92,141 @@ body, html, #root {
   background-color: #333;
 }
 
+/* Conteúdo principal */
 .main-content {
   text-align: center;
-  margin-top: 100px;
+  margin: 50px auto;
+  width: 95%;
+  max-width: 1200px;
+  padding: 0 40px;
+  overflow: hidden;
 }
 
 .title {
-  font-size: 6rem;
+  font-size: 3rem;
   font-weight: bold;
-  color: #000000;
+  color: #000;
+  margin-bottom: 40px;
 }
 
-.subtitle {
-  font-size: 2rem;
-  color: #000000;
-  margin-top: 10px;
-  margin-bottom: 30px;
-}
-
-.title, .subtitle {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.img {
-  max-width: 50px;
-  height: auto;
-}
-
-.footer {
-  margin-top: 2rem;
-  padding: 1rem;
-  width: 100%;
-  background-color: #2c2a2a;
-  text-align: center;
-}
-
-.quadrants-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+/* Container de tarefas com scroll horizontal */
+.task-list-container {
+  display: flex;
   gap: 20px;
-  max-width: 1200px;
-  margin: 50px auto;
-}
-
-.quadrant1 {
-  background-color: rgb(143, 39, 39);
-}
-
-.quadrant2 {
-  background-color: rgb(189, 189, 57);
-}
-
-.quadrant3 {
-  background-color: rgb(106, 150, 56);
-}
-
-.quadrant4 {
-  background-color: rgb(49, 59, 145);
-}
-
-.quadrant {
-  border-radius: 8px;
-  padding: 20px;
-}
-
-.quadrant h2 {
-  margin-top: 0;
-}
-
-.quadrant table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.quadrant thead {
-  background-color: #ffffff;
-}
-
-.quadrant th,
-.quadrant td {
-  border: 1px solid #aaa;
-  padding: 8px;
-  text-align: left;
-}
-
-.task-row {
+  padding: 20px 40px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -40px;
+  min-height: 200px;
   position: relative;
 }
 
-/* Tooltip com a descrição ao passar o mouse */
-.task-row:hover::after {
-  content: attr(data-descricao);
-  position: absolute;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 6px 10px;
-  font-size: 0.9rem;
+/* Estilização da scrollbar */
+.task-list-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.task-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
   border-radius: 4px;
+}
+
+.task-list-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.task-list-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Cards de tarefas */
+.task-item {
+  flex: 0 0 300px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background-color: #fff;
+  min-height: 150px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s;
+}
+
+.task-item:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.task-summary {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.task-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+  position: relative;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.task-name:hover::after {
+  content: attr(data-full-text);
+  position: absolute;
   left: 0;
   top: 100%;
-  white-space: nowrap;
-  transform: translateY(5px);
-  pointer-events: none;
+  background: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
   z-index: 1;
+  white-space: normal;
 }
 
-.actions-container {
+.task-date, .task-priority {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.task-description {
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #f3f3f3;
+  border-top: 1px solid #ddd;
+  word-wrap: break-word;
+  display: none;
+}
+
+.task-item:hover .task-description {
+  display: block;
+}
+
+.task-actions {
+  padding: 10px;
   display: flex;
-  gap: 5px;
+  gap: 10px;
+  justify-content: flex-start;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
+.task-item:hover .task-actions {
+  opacity: 1;
+}
+
+/* Botões de ação */
 .btnAction {
-  padding: 3px 6px;
+  padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.8rem;
   cursor: pointer;
@@ -214,29 +238,58 @@ body, html, #root {
   color: white;
 }
 
-.btnDelete {
-  background-color: rgb(104, 26, 26);
-  color: white;
-}
-
 .btnEdit {
   background-color: rgb(24, 24, 92);
   color: white;
 }
 
-.Muitoalta{
-  color: rgb(31, 29, 29);
+.btnDelete {
+  background-color: rgb(104, 26, 26);
+  color: white;
 }
 
-.Alta{
-  color: rgb(31, 29, 29);
+/* Footer */
+.footer {
+  margin-top: 20px;
+  padding: 1rem;
+  width: 100%;
+  background-color: #2c2a2a;
+  text-align: center;
+  color: white;
 }
 
-.Media{
-  color: rgb(31, 29, 29);
+.footer p {
+  margin: 0.5rem 0;
 }
 
-.Baixa{
-  color: rgb(31, 29, 29);
+.footer a {
+  color: #e91e63;
+  text-decoration: none;
 }
 
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .task-list-container {
+    flex-direction: column;
+    overflow-x: hidden;
+    padding: 20px;
+    margin: 0 -20px;
+  }
+  
+  .task-item {
+    flex: none;
+    width: 100%;
+  }
+}
