@@ -26,7 +26,7 @@ const NovaPagina = () => {
       </header>
 
       <main className="main-content">
-        <h1 className="title">FocusFlow</h1>
+        <h1 className="title">Seja Bem-Vindo</h1>
         <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
           <button className="btn" onClick={handleAtribuicao}>Atribuição</button>
           <button className="btn" onClick={handleLista}>Lista</button>
@@ -34,11 +34,12 @@ const NovaPagina = () => {
       </main>
 
       <footer className="footer">
-        <p>Siga nossas redes sociais:</p>
+      <p>Siga nossas redes sociais:</p>
         <p>
-          Instagram: <a href="#">@taskvault</a> | Twitter: <a href="#">@taskvault</a>
+          linkedin: <a href="https://www.linkedin.com/in/jo%C3%A3o-paulo-dias-0a420317b">@linkedin</a> | GitHub:{" "}
+          <a href="https://github.com/Joaop4846">@GitHub</a>
         </p>
-        <p>Contato: contato@taskvault.com</p>
+        <p>Contato: (11 94218-9237) / joaop4846@gmail.com</p>
       </footer>
     </div>
   );

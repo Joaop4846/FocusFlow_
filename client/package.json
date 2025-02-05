@@ -7,7 +7,8 @@
     "dayjs": "^1.11.13",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.1"
+    "react-router-dom": "^7.1.1",
+    "sweetalert2": "^11.15.10"
   },
   "scripts": {
     "start": "react-scripts start",

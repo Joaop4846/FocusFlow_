@@ -44,37 +44,34 @@ const HomePage = () => {
   return (
     <div className="container">
       <header className="header">
-      <div className="title-header">
-        <img className="img" src="/img/coruja.png" alt="logo" />
-        <span className="page-name">FocusFlow</span>
+        <div className="title-header">
+          <img className="img" src="/img/coruja.png" alt="logo" />
+          <span className="page-name">FocusFlow</span>
         </div>
         <div className="auth-buttons">
-          <button 
-            className="btn sign-in" 
-            onClick={handleSignIn}
-          >
+          <button className="btn sign-in" onClick={handleSignIn}>
             Sign in
           </button>
-          <button 
-            className="btn register" 
-            onClick={handleRegister}
-          >
+          <button className="btn register" onClick={handleRegister}>
             Register
           </button>
         </div>
       </header>
 
       <main className="main-content">
-        <h1 className="title">{title || ""}</h1>
-        <p className="subtitle">{isTitleComplete ? subtitle || "" : ""}</p>
+        <p className="title">{title || ""}</p>
+        <p className="subtitle">
+          {isTitleComplete ? subtitle || "" : ""}
+        </p>
       </main>
 
       <footer className="footer">
         <p>Siga nossas redes sociais:</p>
         <p>
-          Instagram: <a href="#">@taskvault</a> | Twitter: <a href="#">@taskvault</a>
+          linkedin: <a href="https://www.linkedin.com/in/jo%C3%A3o-paulo-dias-0a420317b">@linkedin</a> | GitHub:{" "}
+          <a href="https://github.com/Joaop4846">@GitHub</a>
         </p>
-        <p>Contato: contato@taskvault.com</p>
+        <p>Contato: (11 94218-9237) / joaop4846@gmail.com</p>
       </footer>
     </div>
   );

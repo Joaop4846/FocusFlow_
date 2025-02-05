@@ -18,7 +18,7 @@ const createTask = async (req, res) => {
       PRIORIDADE: prioridade,
       CONCLUSAO: 0
     };
-    console.log('Dados do front:', newTask)
+    
 
     const result = await taskModel.createTask(newTask);
     

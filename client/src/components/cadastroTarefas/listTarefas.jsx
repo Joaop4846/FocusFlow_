@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import Swal from "sweetalert2";
 import "./listTarefas.css";
 
 const ChallengeAssignment = ({ serverIP }) => {
@@ -29,7 +30,7 @@ const ChallengeAssignment = ({ serverIP }) => {
   // Função para atualizar o estado do formulário
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
@@ -81,9 +82,11 @@ const ChallengeAssignment = ({ serverIP }) => {
       }
 
       const data = await response.json();
-      setTasks(prev => [...prev, data]);
+      setTasks((prev) => [...prev, data]);
       setFormData(initialFormState);
-      alert("Tarefa criada com sucesso!");
+      
+      // Utilizando SweetAlert2 para mostrar a mensagem de sucesso
+      Swal.fire("Tarefa cadastrada!", "A tarefa foi criada com sucesso.", "success");
 
     } catch (error) {
       setError("Erro ao criar tarefa: " + error.message);
@@ -101,7 +104,7 @@ const ChallengeAssignment = ({ serverIP }) => {
       </header>
 
       <main className="main-content">
-        <h7 className="title">Criar Nova Tarefa</h7>
+        <p className="titleList">Criar Nova Tarefa</p>
         
         {error && (
           <div style={{ color: "red", margin: "10px 0", textAlign: "center" }}>
@@ -169,13 +172,8 @@ const ChallengeAssignment = ({ serverIP }) => {
           </div>
         </form>
       </main>
-      <footer className="footer">
-  <p>Siga nossas redes sociais:</p>
-  <p>
-    Instagram: <a href="#">@taskvault</a> | Twitter: <a href="#">@taskvault</a>
-  </p>
-  <p>Contato: contato@taskvault.com</p>
-</footer>
+    
+    
     </div>
   );
 };

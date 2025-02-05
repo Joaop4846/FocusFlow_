@@ -1,52 +1,127 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./Matriz.css";
 
-const TaskList = () => {
-  // Exemplo de tarefas cadastradas
-  const tasks = [
-    {
-      id: 1,
-      nome: "Pagar contas urgentes",
-      descricao: "Efetuar pagamentos antes do vencimento",
-      dataTermino: "10/09/2023",
-      nivelDificuldade: "Alta"
-    },
-    {
-      id: 2,
-      nome: "Ler livro de produtividade",
-      descricao: "Estudar técnicas de gestão de tempo",
-      dataTermino: "15/09/2023",
-      nivelDificuldade: "Média"
-    },
-    {
-      id: 3,
-      nome: "Responder mensagens",
-      descricao: "Checar e-mails sem relevância imediata",
-      dataTermino: "08/09/2023",
-      nivelDificuldade: "Baixa"
-    },
-    {
-      id: 4,
-      nome: "Ver redes sociais",
-      descricao: "Distrações e entretenimento",
-      dataTermino: "Sempre que quiser",
-      nivelDificuldade: "Baixa"
-    },
-    {
-      id: 5,
-      nome: "Planejar a semana",
-      descricao: "Organizar atividades e prioridades",
-      dataTermino: "12/09/2023",
-      nivelDificuldade: "Média"
-    },
-    {
-      id: 6,
-      nome: "Exercícios físicos",
-      descricao: "Realizar atividade física por pelo menos 30 minutos",
-      dataTermino: "Diariamente",
-      nivelDificuldade: "Alta"
+const TaskList = ({ serverIP }) => {
+  const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
     }
-  ];
+  }, [token, navigate]);
+
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchTasks() {
+      try {
+        const response = await fetch(`${serverIP}/listTasks`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setTasks(data);
+        } else {
+          setError(data.message || "Erro ao buscar tarefas");
+        }
+      } catch (err) {
+        setError("Ocorreu um erro na comunicação com o servidor.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchTasks();
+  }, [serverIP, token]);
+
+  const handleConclude = (task) => {
+    Swal.fire({
+      title: "Concluir Tarefa",
+      text: "Você deseja concluir a tarefa?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sim",
+      cancelButtonText: "Não",
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`${serverIP}/concludeTask`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": token,
+            },
+            body: JSON.stringify({ id: task.ID_TAREFA })
+          });
+          if (response.ok) {
+            Swal.fire({
+              title: "Concluído!",
+              text: "A tarefa foi concluída com sucesso.",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false,
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire("Erro", "Não foi possível concluir a tarefa.", "error");
+          }
+        } catch (error) {
+          Swal.fire("Erro", "Erro na comunicação com o servidor.", "error");
+        }
+      }
+    });
+  };
+
+  const handleDelete = (task) => {
+    Swal.fire({
+      title: "Excluir Tarefa",
+      text: "Você realmente deseja excluir a tarefa?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim",
+      cancelButtonText: "Não",
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`${serverIP}/deleteTask`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": token,
+            },
+            body: JSON.stringify({ id: task.ID_TAREFA })
+          });
+          if (response.ok) {
+            Swal.fire({
+              title: "Excluído!",
+              text: "A tarefa foi excluída com sucesso.",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false,
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire("Erro", "Não foi possível excluir a tarefa.", "error");
+          }
+        } catch (error) {
+          Swal.fire("Erro", "Erro na comunicação com o servidor.", "error");
+        }
+      }
+    });
+  };
 
   return (
     <div className="container">
@@ -55,47 +130,57 @@ const TaskList = () => {
           <img className="img" src="/img/coruja.png" alt="logo" />
           <span className="page-name">FocusFlow</span>
         </div>
-        <div className="auth-buttons">
-          <button className="btn sign-in">Sign in</button>
-          <button className="btn register">Register</button>
-        </div>
       </header>
 
-      <main className="main-content">
-        <h1 className="title">Minhas Tarefas</h1>
+      <main className="main-content-matriz">
+        <h1 className="titleMatriz">Minhas Tarefas</h1>
         <div className="task-list-container">
-          {tasks.map((task) => (
-            <div key={task.id} className="task-item">
-              <div className="task-summary">
-                <span
-                  className="task-name"
-                  data-full-text={task.nome}
-                >
-                  {task.nome.length > 15 ? task.nome.substring(0, 15) + '...' : task.nome}
-                </span>
-                <span className="task-date">{task.dataTermino}</span>
-                <span className="task-priority">{task.nivelDificuldade}</span>
-                <div className="task-actions">
-                  <button className="btnAction btnConclude">Concluir</button>
-                  <button className="btnAction btnEdit">Editar</button>
-                  <button className="btnAction btnDelete">Excluir</button>
+          {loading ? (
+            <p>Carregando tarefas...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : tasks.length > 0 ? (
+            tasks.map((task) => (
+              <div key={task.id} className="task-item">
+                <div className="task-summary">
+                  <span className="task-name">{task.NOME_TAREFA}</span>
+                  <span className="task-date">
+                    {formatDatetime(task.DATA_TAREFA)}
+                  </span>
+                  <span className="task-priority">{task.PRIORIDADE}</span>
+                  <div className="task-actions">
+                    <button
+                      className="btnAction btnConclude"
+                      onClick={() => handleConclude(task)}
+                    >
+                      Concluir
+                    </button>
+                    <button
+                      className="btnAction btnDelete"
+                      onClick={() => handleDelete(task)}
+                    >
+                      Excluir
+                    </button>
+                  </div>
                 </div>
+                <div className="task-description">{task.DESCRICAO_TAREFA}</div>
               </div>
-              <div className="task-description">{task.descricao}</div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>Não tem tarefas atribuídas no presente momento.</p>
+          )}
         </div>
       </main>
 
-      <footer className="footer">
-        <p>Siga nossas redes sociais:</p>
-        <p>
-          Instagram: <a href="#">@taskvault</a> | Twitter: <a href="#">@taskvault</a>
-        </p>
-        <p>Contato: contato@taskvault.com</p>
-      </footer>
+    
     </div>
   );
 };
+
+function formatDatetime(dateStr) {
+  const date = dateStr?.split("T")[0];
+  const dateParts = date?.split("-");
+  return `${dateParts[2]}/${dateParts[1]}/${dateParts[0].slice(-2)}`;
+}
 
 export default TaskList;
