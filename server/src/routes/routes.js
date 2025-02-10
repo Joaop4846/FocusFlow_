@@ -12,6 +12,9 @@ app.use('/', RegisterTasksRoutes)
 
 const ListTasksRoutes = require('./listTasksRoute.js') // Importe o arquivo de rotas de Lists tasks
 app.use('/', ListTasksRoutes) 
+
+const ListCompletedTasks = require('./completedTasksRoute.js') // Importe o arquivo de rotas de Lists tasks
+app.use('/', ListCompletedTasks) 
  
 
 

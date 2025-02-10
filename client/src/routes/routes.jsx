@@ -7,6 +7,8 @@ import Cadastro from "../components/register/registerUser";
 import TelaInicial from "../components/FocusFlow/telaInicial";
 import Atribuicao from "../components/cadastroTarefas/listTarefas";
 import ListTarefas from "../components/MatrizEise/Matriz"
+import CompletedTasks from "../components/completed/completedTasks"
+
 
 
 
@@ -28,6 +30,7 @@ export default function Router() {
                     <Route path="/index" element={<TelaInicial serverIP={serverIP} />} />
                     <Route path="/Atribuicao" element={<Atribuicao serverIP={serverIP} />} />
                     <Route path="/ListTarefas" element={<ListTarefas serverIP={serverIP} />} />
+                    <Route path="/completed" element={<CompletedTasks serverIP={serverIP} />} />
                     
                     
                 </Routes>

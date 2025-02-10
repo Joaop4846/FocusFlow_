@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./registerUser.css";
 
 const Cadastre = ({ serverIP }) => {
@@ -25,19 +26,16 @@ const Cadastre = ({ serverIP }) => {
     e.preventDefault();
     setErro("");
 
-    // Validação do formato da senha
     if (!validarSenha(senha)) {
       setErro("A senha precisa ter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas e ao menos um símbolo");
       return;
     }
 
-    // Validação de confirmação de senha
     if (senha !== confirmaSenha) {
       setErro("As senhas não conferem");
       return;
     }
 
-    // Envio dos dados para a API do back-end via fetch
     try {
       const response = await fetch(`${serverIP}/register`, {
         method: "POST",
@@ -50,12 +48,15 @@ const Cadastre = ({ serverIP }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Em caso de sucesso, você pode redirecionar o usuário ou exibir uma mensagem de confirmação
-        alert("Cadastro efetuado com sucesso!");
-        // Exemplo de redirecionamento:
-        navigate("/login");
+        Swal.fire({
+          title: "Sucesso!",
+          text: "Cadastro efetuado com sucesso!",
+          icon: "success",
+          confirmButtonText: "OK"
+        }).then(() => {
+          navigate("/login");
+        });
       } else {
-        // Se o back-end retornar um erro, exiba a mensagem recebida
         setErro(data.message || "Erro ao registrar usuário");
       }
     } catch (error) {

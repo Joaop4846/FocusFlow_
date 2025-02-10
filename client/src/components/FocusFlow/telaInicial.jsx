@@ -13,6 +13,10 @@ const NovaPagina = () => {
     navigate("/ListTarefas");
   };
 
+  const handleCompleted = () => {
+    navigate("/completed");
+  };
+
   return (
     <div className="container">
       <header className="header">
@@ -30,6 +34,8 @@ const NovaPagina = () => {
         <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
           <button className="btn" onClick={handleAtribuicao}>Atribuição</button>
           <button className="btn" onClick={handleLista}>Lista</button>
+          <button className="btn" onClick={handleCompleted}>Completadas</button>
+
         </div>
       </main>
 

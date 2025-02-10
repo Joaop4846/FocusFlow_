@@ -1,0 +1,138 @@
+/* Reset global */
+body, html, #root {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+  }
+  
+  /* Container principal */
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #2c2c2c;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .title-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .img {
+    height: 40px;
+  }
+  
+  .page-name {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Conteúdo principal das tarefas concluídas */
+  .main-content-completed {
+    flex: 1;
+    padding: 130px 40px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .titleCompleted {
+    text-align: center;
+    font-size: 42px;
+    margin: 5px 0;
+    color: #000;
+  }
+  
+  /* Container de tarefas */
+  .task-list-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px 40px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: calc(100% - 120px);
+  }
+  
+  /* Cards de tarefas */
+  .task-item {
+    flex: 0 0 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s;
+  }
+  
+  .task-item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .task-summary {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .task-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .task-concluded-date {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .task-priority {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* Descrição da tarefa (aparece no hover) */
+  .task-description {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f3f3f3;
+    border-top: 1px solid #ddd;
+    display: none;
+  }
+  
+  .task-item:hover .task-description {
+    display: block;
+  }
+  
+  /* Media queries */
+  @media (max-width: 768px) {
+    .main-content-completed {
+      padding: 20px;
+    }
+    
+    .task-list-container {
+      padding: 20px;
+      width: calc(100% - 40px);
+    }
+    
+    .task-item {
+      flex: 0 0 250px;
+    }
+    
+    .titleCompleted {
+      font-size: 32px;
+    }
+  }

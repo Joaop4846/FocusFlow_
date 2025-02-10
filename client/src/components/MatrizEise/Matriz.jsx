@@ -167,7 +167,7 @@ const TaskList = ({ serverIP }) => {
               </div>
             ))
           ) : (
-            <p>Não tem tarefas atribuídas no presente momento.</p>
+            <p className="TarefasNAtribuidas">Não tem tarefas atribuídas no presente momento.</p>
           )}
         </div>
       </main>

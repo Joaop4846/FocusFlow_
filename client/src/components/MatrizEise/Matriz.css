@@ -61,6 +61,7 @@ body, html, #root {
   overflow-x: auto;
   scroll-behavior: smooth;
   width: calc(100% - 120px);
+  
 
 
 }
